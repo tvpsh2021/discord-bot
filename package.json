@@ -4,6 +4,9 @@
   "repository": "git@github.com:tvpsh2021/discord-bot.git",
   "author": "Jimmy Cheng <tvpsh2020@gmail.com>",
   "license": "MIT",
+  "engines": {
+    "node": "12.20.x"
+  },
   "scripts": {
     "dev:webhook": "nodemon webhook.js",
     "dev:api": "nodemon api.js",
