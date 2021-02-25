@@ -1,0 +1,24 @@
+{
+  "name": "discord-bot",
+  "version": "1.0.0",
+  "repository": "git@github.com:tvpsh2021/discord-bot.git",
+  "author": "Jimmy Cheng <tvpsh2020@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev:webhook": "nodemon webhook.js",
+    "dev:api": "nodemon api.js",
+    "start": "pm2-runtime start ecosystem.config.js"
+  },
+  "devDependencies": {
+    "eslint": "^7.20.0",
+    "nodemon": "^2.0.7"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "body-parser": "^1.19.0",
+    "discord.js": "^12.5.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "pm2": "^4.5.4"
+  }
+}
