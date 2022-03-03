@@ -4,25 +4,53 @@ const { getDinner } = require('./helper');
 const client = new Discord.Client();
 require('dotenv').config();
 
-function checkFullEqualCommand({ msgContent, msgInstance }) {
+async function checkFullEqualCommand({ msgContent, msgInstance }) {
   switch (msgContent) {
     case 'ping': {
-      msgInstance.channel.send('pong');
+      await msgInstance.channel.send('pong pong');
+      await msgInstance.channel.send('pong pong pong');
       break;
     }
     case '!help': {
-      msgInstance.channel.send(`亦凡可以幫你： \n\n \`ping\` : 看看亦凡有沒有醒著 \n \`yt\` : 亦凡幫你搜尋 YouTube \n \`dinner\` : 晚餐吃什麼`);
+      await msgInstance.channel.send(`
+輸入指令讓亦凡幫你:
+
+1️⃣ \`ping\`: 看看亦凡有沒有醒著
+2️⃣ \`yt [關鍵字]\`: 亦凡幫你搜尋 YouTube
+3️⃣ \`dinner\`: 晚餐吃什麼
+4️⃣ \`!開台\`: 幫你開台, 但是亦凡很沒用, 只會改 Discord Channel Name, 注意每 10 分鐘只能改 2 次
+5️⃣ \`!關台\`: 幫你關台, 但是亦凡很沒用, 只會改 Discord Channel Name, 注意每 10 分鐘只能改 2 次
+6️⃣ \`cn [頻道名稱]\`: 幫你改 Discord Channel Name, 注意每 10 分鐘只能改 2 次
+      `);
       break;
     }
     case 'dinner': {
       const dinner = getDinner();
-      msgInstance.channel.send(`${dinner.title} \n ${dinner.url}`);
+      await msgInstance.channel.send(`${dinner.title} \n ${dinner.url}`);
+      break;
+    }
+    case '!開台': {
+      console.log('開台');
+      const time = new Date();
+      const reason = `change at ${time}`
+      console.log(reason);
+      const gObject = await msgInstance.channel.setName('🔴吳亦凡的家', reason);
+      console.log(gObject);
+      break;
+    }
+    case '!關台': {
+      console.log('關台');
+      const time = new Date();
+      const reason = `change at ${time}`
+      console.log(reason);
+      const gObject = await msgInstance.channel.setName('吳亦凡的家', reason);
+      console.log(gObject);
       break;
     }
   }
 }
 
-function checkCommand({ msgContent, msgInstance }) {
+async function checkCommand({ msgContent, msgInstance }) {
   if (msgContent.startsWith('yt')) {
     const parsedContent = msgContent.split(' ');
     parsedContent.shift();
@@ -35,17 +63,30 @@ function checkCommand({ msgContent, msgInstance }) {
     });
     return;
   }
+
+  if (msgContent.startsWith('cn')) {
+    const parsedContent = msgContent.split(' ');
+    parsedContent.shift();
+    const keyword = (parsedContent.join(' ')).trim();
+    console.log(keyword);
+    await msgInstance.channel.setName(keyword)
+    return;
+  }
 }
 
-client.on('ready', () => {
+client.on('ready', async () => {
   console.log('Discord webhook server ready.');
 });
 
-client.on('message', msgInstance => {
+client.on('message', async (msgInstance) => {
   const msgContent = msgInstance.content.toLowerCase();
-
-  checkFullEqualCommand({ msgContent, msgInstance });
-  checkCommand({ msgContent, msgInstance });
+  try {
+    await checkFullEqualCommand({ msgContent, msgInstance });
+    await checkCommand({ msgContent, msgInstance });
+  } catch (err) {
+    console.log(err);
+    await msgInstance.channel.send(err.message);
+  }
 });
 
 client.login(process.env.DISCORD_BOT_TOKEN);

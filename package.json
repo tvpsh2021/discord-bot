@@ -5,7 +5,7 @@
   "author": "Jimmy Cheng <tvpsh2020@gmail.com>",
   "license": "MIT",
   "engines": {
-    "node": "12.20.x",
+    "node": "12.x.x",
     "yarn": "1.22.x"
   },
   "scripts": {
