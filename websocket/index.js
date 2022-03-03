@@ -32,19 +32,17 @@ async function checkFullEqualCommand({ msgContent, msgInstance }) {
     case '!開台': {
       console.log('開台');
       const time = new Date();
-      const reason = `change at ${time}`
+      const reason = `change at ${time}`;
       console.log(reason);
-      const gObject = await msgInstance.channel.setName('🔴吳亦凡的家', reason);
-      console.log(gObject);
+      await msgInstance.channel.setName('🔴吳亦凡的家', reason);
       break;
     }
     case '!關台': {
       console.log('關台');
       const time = new Date();
-      const reason = `change at ${time}`
+      const reason = `change at ${time}`;
       console.log(reason);
-      const gObject = await msgInstance.channel.setName('吳亦凡的家', reason);
-      console.log(gObject);
+      await msgInstance.channel.setName('吳亦凡的家', reason);
       break;
     }
   }
@@ -69,7 +67,7 @@ async function checkCommand({ msgContent, msgInstance }) {
     parsedContent.shift();
     const keyword = (parsedContent.join(' ')).trim();
     console.log(keyword);
-    await msgInstance.channel.setName(keyword)
+    await msgInstance.channel.setName(keyword);
     return;
   }
 }
