@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 
@@ -8,11 +9,12 @@ require('dotenv').config();
 app.enable('trust proxy');
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.set('views', path.join(__dirname, 'views'));
 app.use('/discord', require('./discord'));
 require('./websocket');
 
 app.get('/', (req, res) => {
-  res.send('吳亦凡起床囉!');
+  res.sendFile(path.join(__dirname, './views/index.html'));
 });
 
 app.get('/health', (req, res) => {
